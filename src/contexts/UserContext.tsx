@@ -11,14 +11,20 @@ type Props = {
   children: ReactNode;
 };
 
-interface UserContext {
+interface UserContextType {
   setUser: (user: any) => void;
   user: any;
   setUserId: (id: string) => void;
   userId: string;
 }
 
-const UserContext = createContext({} as UserContext);
+const data: UserContextType = {
+  setUser: () => null,
+  user: null,
+  setUserId: () => null,
+  userId: "",
+};
+const UserContext = createContext(data);
 
 export function useUser() {
   return useContext(UserContext);
@@ -27,7 +33,7 @@ export function useUser() {
 export function UserProvider({ children }: Props) {
   const [user, setUser] = useState<User | any>(null);
   const [userId, setUserId] = useState<string>("");
-  console.log(user);
+
   return (
     <UserContext.Provider
       value={{

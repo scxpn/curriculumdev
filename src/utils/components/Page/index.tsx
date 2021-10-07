@@ -13,7 +13,7 @@ export default ({ children, hasFooter, hideSearch = false }: Props) => {
     <Flex flexDir="column" w="100vw" h="100vh" bgColor="gray.900">
       <Header
         d="flex"
-        p={["20px 16px 20px 0", "20px 8px 20px 0"]}
+        p={["10px 8px 10px 4px", "20px 16px 20px 0", "20px 8px 20px 0"]}
         justifyContent="space-between"
         alignItems="center"
         bgColor="blackAlpha.700"

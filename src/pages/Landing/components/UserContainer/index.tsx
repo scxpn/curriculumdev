@@ -18,7 +18,8 @@ import {
 
 export default () => {
   const { user } = useUser();
-  const { name, login, avatar_url, followers, following }: User = user;
+  const { name, login, avatar_url, followers, following, bio, html_url }: User =
+    user;
 
   const size = useBreakpointValue({
     base: "sm",
@@ -41,7 +42,7 @@ export default () => {
             size={size === "sm" ? "md" : "lg"}
           />
           <Text color="gray.200" fontSize={["14px", "18px"]} fontWeight="bold">
-            {name}
+            {name ?? login}
           </Text>
         </HStack>
 
@@ -55,6 +56,17 @@ export default () => {
             </Text>
           </HStack>
         </Box>
+      </Flex>
+
+      <Flex
+        w="100%"
+        alignItems="center"
+        justifyContent="center"
+        mt={["2", "3"]}
+      >
+        <Text maxW="70%" as="cite" color="white">
+          " {bio} "
+        </Text>
       </Flex>
     </Box>
   );

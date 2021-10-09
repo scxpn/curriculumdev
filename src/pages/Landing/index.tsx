@@ -5,15 +5,7 @@ import UserContainer from "./components/UserContainer";
 import { useUser } from "../../contexts/UserContext";
 
 export default () => {
-  const { userId, user, setUser } = useUser();
-
-  useEffect(() => {
-    if (userId !== "") {
-      fetch(`https://api.github.com/users/${userId}`)
-        .then((res) => res.json())
-        .then((data) => setUser(data));
-    }
-  }, [userId]);
+  const { user } = useUser();
 
   return (
     <Page>

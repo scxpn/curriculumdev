@@ -31,8 +31,17 @@ export function useUser() {
 }
 
 export function UserProvider({ children }: Props) {
+  const apiBase = "https://api.github.com";
   const [user, setUser] = useState<User | any>(null);
   const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    if (userId !== "") {
+      fetch(`${apiBase}/users/${userId}`)
+        .then((res) => res.json())
+        .then((data) => setUser(data));
+    }
+  }, [userId]);
 
   return (
     <UserContext.Provider

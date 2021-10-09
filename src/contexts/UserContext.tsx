@@ -1,4 +1,4 @@
-import { User } from "../utils/types";
+import { User, Repositories } from "../utils/types";
 import {
   createContext,
   useState,
@@ -16,6 +16,7 @@ interface UserContextType {
   user: any;
   setUserId: (id: string) => void;
   userId: string;
+  repositories: Repositories[] | null;
 }
 
 const data: UserContextType = {
@@ -23,6 +24,7 @@ const data: UserContextType = {
   user: null,
   setUserId: () => null,
   userId: "",
+  repositories: null,
 };
 const UserContext = createContext(data);
 
@@ -31,17 +33,27 @@ export function useUser() {
 }
 
 export function UserProvider({ children }: Props) {
-  const apiBase = "https://api.github.com";
-  const [user, setUser] = useState<User | any>(null);
-  const [userId, setUserId] = useState<string>("");
+  const apiBase = "https://api.github.com/users";
+  const [user, setUser] = useState<User | null>(null);
+  const [userId, setUserId] = useState<string>("scxpn");
+  const [repos, setRepos] = useState<[Repositories] | null>(null);
 
   useEffect(() => {
     if (userId !== "") {
-      fetch(`${apiBase}/users/${userId}`)
+      fetch(`${apiBase}/${userId}`)
         .then((res) => res.json())
         .then((data) => setUser(data));
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (user && user?.repos_url) {
+      fetch(user?.repos_url)
+        .then((res) => res.json())
+        //@ts-ignore
+        .then((data) => setRepos(() => [...data]));
+    }
+  }, [userId, user]);
 
   return (
     <UserContext.Provider
@@ -50,6 +62,7 @@ export function UserProvider({ children }: Props) {
         setUser: setUser,
         userId,
         setUserId: setUserId,
+        repositories: repos,
       }}
     >
       {children}

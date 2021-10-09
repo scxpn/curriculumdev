@@ -12,3 +12,14 @@ export interface User {
   repos_url: string;
   html_url: string;
 }
+
+export interface Repositories {
+  id: number;
+  name: string;
+  full_name: string;
+  html_url: string;
+  description: string;
+  visibility: "public" | "private";
+  language: string;
+  language_url: string;
+}

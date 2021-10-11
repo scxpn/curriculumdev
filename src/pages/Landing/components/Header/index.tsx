@@ -46,23 +46,30 @@ export default () => {
               isTruncated
             >
               {size === "sm"
-                ? name.split(" ")[0] ?? login.split(" ")[0]
+                ? (name && name.split(" ")[0]) || login.split(" ")[0]
                 : name ?? login}
             </Text>
 
             <Link isExternal href={`${html_url}/?tab=repositories`}>
               <HStack
                 w="100%"
-                px={["2"]}
+                px={["0", "2"]}
                 alignItems="center"
                 spacing={["1", "1"]}
               >
-                <Text color="gray.400" fontSize={["13px", "15px"]}>
+                <Text color="gray.400" fontSize={["10.5px", "15px"]}>
                   {repositories && repositories.length > 0
                     ? formatToView(repositories?.length)
+                    : size === "sm"
+                    ? "0"
                     : "Nenhum repositório"}
                 </Text>
-                <Icon as={RiGitRepositoryCommitsLine} color="gray.400" />
+                <Icon
+                  as={RiGitRepositoryCommitsLine}
+                  w={[2.5, 4]}
+                  h={[2.5, 4]}
+                  color="gray.400"
+                />
               </HStack>
             </Link>
           </VStack>

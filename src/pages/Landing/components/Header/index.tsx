@@ -2,6 +2,7 @@ import {
   Flex,
   Box,
   Text,
+  Stack,
   HStack,
   VStack,
   StackDivider,
@@ -36,14 +37,17 @@ export default () => {
             src={avatar_url}
             size={size === "sm" ? "md" : "lg"}
           />
-          <VStack alignItems="flex-start" h="100%" spacing="auto">
+          <VStack alignItems="flex-start" h="100%" spacing="auto" maxW="100%">
             <Text
               textAlign="start"
               color="gray.200"
               fontSize={["14px", "18px"]}
               fontWeight="bold"
+              isTruncated
             >
-              {name ?? login}
+              {size === "sm"
+                ? name.split(" ")[0] ?? login.split(" ")[0]
+                : name ?? login}
             </Text>
 
             <Link isExternal href={`${html_url}/?tab=repositories`}>
@@ -66,12 +70,32 @@ export default () => {
 
         <Box h="100%">
           <HStack h="100%" divider={<StackDivider borderColor="gray.200" />}>
-            <Text color="gray.200" fontSize={["12px", "16px"]}>
-              <b>{formatToView(followers)}</b> seguidores
-            </Text>
-            <Text color="gray.200" fontSize={["12px", "16px"]}>
-              <b>{formatToView(following)}</b> seguindo
-            </Text>
+            <Stack direction={["column", "row"]} spacing={["0", "auto"]}>
+              <Text
+                textAlign={["center", "unset"]}
+                fontWeight="bold"
+                color="gray.200"
+                fontSize={["12px", "16px"]}
+              >
+                {formatToView(followers)}
+              </Text>
+              <Text color="gray.200" fontSize={["12px", "16px"]}>
+                seguidores
+              </Text>
+            </Stack>
+            <Stack direction={["column", "row"]} spacing={["0", "auto"]}>
+              <Text
+                textAlign={["center", "unset"]}
+                fontWeight="bold"
+                color="gray.200"
+                fontSize={["12px", "16px"]}
+              >
+                {formatToView(following)}
+              </Text>
+              <Text color="gray.200" fontSize={["12px", "16px"]}>
+                seguindo
+              </Text>
+            </Stack>
           </HStack>
         </Box>
       </Flex>

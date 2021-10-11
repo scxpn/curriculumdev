@@ -35,7 +35,7 @@ export function useUser() {
 export function UserProvider({ children }: Props) {
   const apiBase = "https://api.github.com/users";
   const [user, setUser] = useState<User | null>(null);
-  const [userId, setUserId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("scxpn");
   const [repos, setRepos] = useState<[Repositories] | null>(null);
 
   useEffect(() => {

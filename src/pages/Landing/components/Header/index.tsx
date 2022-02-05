@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Flex,
   Box,
@@ -15,10 +16,13 @@ import { formatToView } from "../../../../utils/helpers/formatToView";
 import { RiGitRepositoryCommitsLine } from "react-icons/ri";
 import { useUser } from "../../../../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import ModalUsers from "../../../../utils/components/ModalUsers";
+import ModalUsersRoutes from "../../../../routes/modal-users";
 import { singularOrPlural } from "../../../../utils/singularOrPlural";
 
 export default () => {
   const history = useHistory();
+  const [show, setShow] = useState<boolean>(false);
   const {
     repositories,
     user: { name, login, avatar_url, followers, following, bio, html_url },
@@ -30,6 +34,7 @@ export default () => {
   });
   return (
     <Flex flexDir="column" justifyContent="center" alignItems="center">
+      <ModalUsersRoutes />
       <Flex w="100%" alignItems="center" justifyContent="space-between">
         <HStack spacing={["8px", "12px"]} alignItems="center">
           <Avatar
@@ -77,7 +82,12 @@ export default () => {
 
         <Box h="100%">
           <HStack h="100%" divider={<StackDivider borderColor="gray.200" />}>
-            <Stack direction={["column", "row"]} spacing={["0", "auto"]}>
+            <Stack
+              direction={["column", "row"]}
+              spacing={["0", "4px"]}
+              onClick={() => history.push("/followers")}
+              cursor="pointer"
+            >
               <Text
                 textAlign={["center", "unset"]}
                 fontWeight="bold"
@@ -90,7 +100,12 @@ export default () => {
                 seguidores
               </Text>
             </Stack>
-            <Stack direction={["column", "row"]} spacing={["0", "auto"]}>
+            <Stack
+              direction={["column", "row"]}
+              spacing={["0", "4px"]}
+              onClick={() => history.push("/following")}
+              cursor="pointer"
+            >
               <Text
                 textAlign={["center", "unset"]}
                 fontWeight="bold"

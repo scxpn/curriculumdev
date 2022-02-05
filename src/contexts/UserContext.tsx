@@ -17,6 +17,8 @@ interface UserContextType {
   setUserId: (id: string) => void;
   userId: string;
   repositories: Repositories[] | null;
+  follows: any[] | null;
+  handleUserFollow: (pathname: string) => void;
 }
 
 const data: UserContextType = {
@@ -25,6 +27,8 @@ const data: UserContextType = {
   setUserId: () => null,
   userId: "",
   repositories: null,
+  follows: null,
+  handleUserFollow: () => null,
 };
 const UserContext = createContext(data);
 
@@ -35,8 +39,9 @@ export function useUser() {
 export function UserProvider({ children }: Props) {
   const apiBase = "https://api.github.com/users";
   const [user, setUser] = useState<User | null>(null);
-  const [userId, setUserId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("scxpn");
   const [repos, setRepos] = useState<[Repositories] | null>(null);
+  const [follow, setFollow] = useState<[any] | null>(null);
 
   useEffect(() => {
     if (userId !== "") {
@@ -55,6 +60,15 @@ export function UserProvider({ children }: Props) {
     }
   }, [userId, user]);
 
+  const handleUserFollow = (pathname: string) => {
+    if (user && pathname) {
+      fetch(`${apiBase}/${userId}${pathname}`)
+        .then((res) => res.json())
+        //@ts-ignore
+        .then((data) => setFollow(() => [...data]));
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -63,6 +77,8 @@ export function UserProvider({ children }: Props) {
         userId,
         setUserId: setUserId,
         repositories: repos,
+        follows: follow,
+        handleUserFollow: (pathname: string) => handleUserFollow(pathname),
       }}
     >
       {children}

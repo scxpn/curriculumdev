@@ -1,3 +1,7 @@
+export interface Children {
+  children: JSX.Element;
+}
+
 export interface User {
   name: string;
   login: string;
